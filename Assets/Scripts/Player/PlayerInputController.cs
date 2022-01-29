@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(MovementComponent))]
 public class PlayerInputController : MonoBehaviour
 {
+    private float xSensitivity = 1 / 10f;
+    private float ySensitivity = 1 / 12f;
+    
     private PlayerControls _playerControls;
 
     private MovementComponent _movementComponent;
@@ -16,7 +19,6 @@ public class PlayerInputController : MonoBehaviour
     {
         _playerControls = new PlayerControls();
         _movementComponent = GetComponent<MovementComponent>();
-
 
     }
 
@@ -32,6 +34,10 @@ public class PlayerInputController : MonoBehaviour
 
     private void Update()
     {
+        _movementComponent.Look(new Vector2(
+            _playerControls.Land.MouseX.ReadValue<float>() * xSensitivity,
+            _playerControls.Land.MouseY.ReadValue<float>() * ySensitivity));
         _movementComponent.Move(_playerControls.Land.Move.ReadValue<Vector2>());
+        // _movementComponent.Jump();
     }
 }
